@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class Player : MonoBehaviour
 {
     [Header("Movimiento")]
-    public float moveSpeed;
+    public float walkSpeed;
     public float mouseSensitivity;
 
     [Header("Head Bobbing")]
@@ -12,12 +12,12 @@ public class Player : MonoBehaviour
     public float bobAmount = 0.05f;
 
     [Header("Referencias")]
-    [SerializeField] private Transform cameraHolder; 
     [SerializeField] private Transform cameraTransform; 
     [SerializeField] private ImputReader inputReader;
 
     [Header("Components")]
-    private Rigidbody rb;
+    private Rigidbody myRBD;
+    private Animator animator;
     private Vector2 movement;
     private Vector2 lookInput;
     private float xRotation;
@@ -38,7 +38,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
+        myRBD = GetComponent<Rigidbody>();
     }
     private void Start()
     {
@@ -48,68 +49,44 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        MovePlayer();
+        ApplyPhysics();
     }
     private void Update()
     {
-        HandleMouseLook();
-        HandleHeadBobbing();
+
+        HandleLookPlayer();
     }
-
-    private void OnMovement(Vector2 input)
+    private void OnMovement(Vector2 movementInput)
     {
-        movement = input;
+        if (canMove)
+        {
+            movement = movementInput;
+            animator.SetBool("isWalking", true);
+        }
+        else if (movement.magnitude == 0)
+        {
+            animator.SetBool("isWalking", false);
+        }
     }
-
-    private void OnLook(Vector2 input)
+    private void OnLook(Vector2 inputLook)
     {
-        lookInput = input;
+        lookInput = inputLook;
     }
-
-    private void MovePlayer()
+    private void HandleLookPlayer()
     {
-        if (!canMove) return;
+        transform.Rotate(Vector3.up * lookInput.x * mouseSensitivity * Time.deltaTime);
 
-        Vector3 moveDirection = transform.right * movement.x + transform.forward * movement.y;
-        Vector3 velocity = moveDirection * moveSpeed;
-        velocity.y = rb.linearVelocity.y;
-        rb.linearVelocity = velocity;
-    }
-
-    private void HandleMouseLook()
-    {
-        if (!canMove) return;
-
-        float mouseX = lookInput.x * mouseSensitivity;
-        float mouseY = lookInput.y * mouseSensitivity;
-
-        xRotation -= mouseY;
+        xRotation -= lookInput.y * mouseSensitivity * Time.deltaTime;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        // Rotar todo el cameraHolder en X e Y
-        cameraHolder.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        cameraHolder.Rotate(Vector3.up * mouseX, Space.World);
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
-
-    private void HandleHeadBobbing()
+    private void ApplyPhysics()
     {
-        if (movement.magnitude > 0.1f && rb.linearVelocity.magnitude > 0.1f)
-        {
-            bobTimer += Time.deltaTime * bobSpeed;
-            float bobOffset = Mathf.Sin(bobTimer) * bobAmount;
-            cameraTransform.localPosition = new Vector3(
-                cameraTransform.localPosition.x,
-                defaultCamY + bobOffset,
-                cameraTransform.localPosition.z
-            );
-        }
-        else
-        {
-            bobTimer = 0f;
-            Vector3 camPos = cameraTransform.localPosition;
-            camPos.y = Mathf.Lerp(camPos.y, defaultCamY, Time.deltaTime * bobSpeed);
-            cameraTransform.localPosition = camPos;
-        }
+        Vector3 moveDirection = (transform.right * movement.x + transform.forward * movement.y).normalized;
+        Vector3 velocity = moveDirection * walkSpeed;
+        velocity.y = myRBD.linearVelocity.y; 
+        myRBD.linearVelocity = velocity;
     }
 }
 
