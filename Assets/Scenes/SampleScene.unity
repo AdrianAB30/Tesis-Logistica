@@ -314,7 +314,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.060000006, y: 4.819, z: 1.004}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
@@ -447,10 +447,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 3
   mouseSensitivity: 15
-  bobSpeed: 10
-  bobAmount: 0.05
   cameraTransform: {fileID: 330585546}
   inputReader: {fileID: 1342660355}
+  animations:
+    animator: {fileID: 1350667050}
   canMove: 1
 --- !u!114 &356936316
 MonoBehaviour:

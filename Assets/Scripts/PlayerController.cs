@@ -1,28 +1,24 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Movimiento")]
     public float walkSpeed;
     public float mouseSensitivity;
 
-    [Header("Head Bobbing")]
-    public float bobSpeed = 10f;
-    public float bobAmount = 0.05f;
-
     [Header("Referencias")]
     [SerializeField] private Transform cameraTransform; 
     [SerializeField] private ImputReader inputReader;
 
+    [Header("Animaciones")]
+    [SerializeField] private Animations animations;
+
     [Header("Components")]
     private Rigidbody myRBD;
-    private Animator animator;
     private Vector2 movement;
     private Vector2 lookInput;
     private float xRotation;
-    private float bobTimer;
-    private float defaultCamY;
     public bool canMove = true;
 
     private void OnEnable()
@@ -38,14 +34,12 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
         myRBD = GetComponent<Rigidbody>();
     }
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        defaultCamY = cameraTransform.localPosition.y;
     }
     private void FixedUpdate()
     {
@@ -53,7 +47,6 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-
         HandleLookPlayer();
     }
     private void OnMovement(Vector2 movementInput)
@@ -61,11 +54,7 @@ public class Player : MonoBehaviour
         if (canMove)
         {
             movement = movementInput;
-            animator.SetBool("isWalking", true);
-        }
-        else if (movement.magnitude == 0)
-        {
-            animator.SetBool("isWalking", false);
+            animations.UpdateMovementAnimation(movement);
         }
     }
     private void OnLook(Vector2 inputLook)
