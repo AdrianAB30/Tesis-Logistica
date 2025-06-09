@@ -3,9 +3,14 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movimiento")]
+    [Header("Movimiento e Interaccion")]
     public float walkSpeed;
     public float mouseSensitivity;
+    private GameObject objectHeld = null;
+    public float interactRange = 2f;
+    public LayerMask interactableLayer;
+    [SerializeField] private Transform eyes;
+    [SerializeField] private Transform holdPosition;
 
     [Header("Referencias")]
     [SerializeField] private Transform cameraTransform; 
@@ -25,11 +30,13 @@ public class PlayerController : MonoBehaviour
     {
         inputReader.OnMovementInput += OnMovement;
         inputReader.OnLookInput += OnLook;
+        inputReader.OnInteractInput += OnInteract;
     }
     private void OnDisable()
     {
         inputReader.OnMovementInput -= OnMovement;
         inputReader.OnLookInput -= OnLook;
+        inputReader.OnInteractInput -= OnInteract;
     }
 
     private void Awake()
@@ -76,6 +83,39 @@ public class PlayerController : MonoBehaviour
         Vector3 velocity = moveDirection * walkSpeed;
         velocity.y = myRBD.linearVelocity.y; 
         myRBD.linearVelocity = velocity;
+    }
+    private void OnInteract(bool isPressed)
+    {
+        animations.SetInteract(isPressed);
+
+        if (!isPressed) return;
+
+        if (objectHeld == null)
+        {
+            Ray ray = new Ray(eyes.position, eyes.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, interactRange, interactableLayer))
+            {
+                objectHeld = hit.collider.gameObject;
+                objectHeld.GetComponent<Rigidbody>().isKinematic = true;
+                objectHeld.transform.SetParent(holdPosition);
+                objectHeld.transform.localPosition = Vector3.zero;
+                objectHeld.transform.localRotation = Quaternion.identity;
+            }
+        }
+        else
+        {
+            objectHeld.GetComponent<Rigidbody>().isKinematic = false;
+            objectHeld.transform.SetParent(null);
+            objectHeld = null;
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        if (eyes != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawRay(eyes.position, eyes.forward * interactRange);
+        }
     }
 }
 

@@ -7,6 +7,7 @@ public class ImputReader : MonoBehaviour
     public event Action<Vector2> OnMovementInput;
     public event Action<Vector2> OnLookInput;
     public event Action<bool> OnRunningInput;
+    public event Action<bool> OnInteractInput;
     public bool canHandleInput = true;
 
     public void HandleMovement(InputAction.CallbackContext context)
@@ -43,6 +44,17 @@ public class ImputReader : MonoBehaviour
         else if (context.canceled)
         {
             OnRunningInput?.Invoke(false);
+        }
+    }
+    public void HandleInteract(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            OnInteractInput?.Invoke(true);
+        }
+        else if (context.canceled)
+        {
+            OnInteractInput?.Invoke(false);
         }
     }
 }
