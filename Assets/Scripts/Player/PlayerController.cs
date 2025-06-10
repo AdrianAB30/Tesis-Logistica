@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private GameObject objectHeld = null;
     public float interactRange = 2f;
     public LayerMask interactableLayer;
+    private float pickupCooldown = 1f; 
+    private float lastDropTime = -1f;
     [SerializeField] private Transform eyes;
     [SerializeField] private Transform holdPosition;
 
@@ -90,6 +92,8 @@ public class PlayerController : MonoBehaviour
 
         if (!isPressed) return;
 
+        if (Time.time - lastDropTime < pickupCooldown) return;
+
         if (objectHeld == null)
         {
             Ray ray = new Ray(eyes.position, eyes.forward);
@@ -107,6 +111,8 @@ public class PlayerController : MonoBehaviour
             objectHeld.GetComponent<Rigidbody>().isKinematic = false;
             objectHeld.transform.SetParent(null);
             objectHeld = null;
+
+            lastDropTime = Time.time;
         }
     }
     private void OnDrawGizmos()
