@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        SetCanMove(false);
     }
     private void FixedUpdate()
     {
@@ -114,6 +115,11 @@ public class PlayerController : MonoBehaviour
 
             lastDropTime = Time.time;
         }
+    }
+    public void SetCanMove(bool state)
+    {
+        canMove = state;
+        movement = Vector2.zero;
     }
     private void OnDrawGizmos()
     {
