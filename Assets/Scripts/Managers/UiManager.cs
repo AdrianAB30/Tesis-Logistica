@@ -40,15 +40,17 @@ public class UiManager : MonoBehaviour
 
     private IEnumerator ShowPopUps()
     {
-        yield return new WaitForSeconds(2.5f);
-        ActivatePopUps(true);
-        yield return new WaitForSeconds(1);
-        playerController.SetCanMove(true);
-        DOTween.Sequence()
-        .Append(popUp[0].DOAnchorPos(targetPositions[0], dgConfig.popUpTime).SetEase(dgConfig.popUpEase))
-        .AppendInterval(3f)
-        .Append(popUp[0].DOAnchorPos(originalPositions[0], dgConfig.popUpTime).SetEase(dgConfig.popUpEase));
+        yield return new WaitForSeconds(0.5f);
 
+        ActivatePopUps(true);
+
+        DOTween.Sequence()
+            .Append(popUp[0].DOAnchorPos(targetPositions[0], dgConfig.popUpTime)
+            .SetEase(dgConfig.popUpEase))
+            .AppendInterval(4f)
+            .Append(popUp[0].DOAnchorPos(originalPositions[0], dgConfig.popUpTime)
+            .SetEase(dgConfig.popUpEase))
+            .OnComplete(() => playerController.SetCanMove(true)); 
     }
     public void ActivatePopUps(bool status)
     {

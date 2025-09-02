@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DOTweenAnimationsConfig
   m_EditorClassIdentifier: 
   popUpEase: 13
-  popUpTime: 0.3
+  popUpTime: 1
   panelEase: 4
   panelTime: 0.4
   buttonEase: 30
