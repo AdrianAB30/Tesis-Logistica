@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour
     private float xRotation;
     public bool canMove = true;
 
+    [Header("Game Events")]
+    [SerializeField] private GameEvents gameEvents;
+
     private void OnEnable()
     {
         inputReader.OnMovementInput += OnMovement;

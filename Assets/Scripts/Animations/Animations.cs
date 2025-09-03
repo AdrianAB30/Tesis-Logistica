@@ -25,7 +25,6 @@ public class Animations
     }
     public void SetInteract(bool isInteracting)
     {
-        Debug.Log("SetInteract: " + isInteracting);
         animator.SetBool("isInteract", isInteracting);
     }
 }

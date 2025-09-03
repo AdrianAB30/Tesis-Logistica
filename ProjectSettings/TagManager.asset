@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Teclado mecanico
+  - Mouse inalambrico
+  - Cable HDMI
+  - Despacho
   layers:
   - Default
   - TransparentFX
