@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform holdPosition;
 
     [Header("Referencias")]
-    [SerializeField] private Transform cameraTransform; 
+    [SerializeField] public Transform cameraTransform; 
     [SerializeField] private ImputReader inputReader;
 
     [Header("Animaciones")]
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleLookPlayer();
     }
-    private void OnMovement(Vector2 movementInput)
+    public void OnMovement(Vector2 movementInput)
     {
         if (canMove)
         {
@@ -67,11 +67,11 @@ public class PlayerController : MonoBehaviour
             animations.UpdateMovementAnimation(movement);
         }
     }
-    private void OnLook(Vector2 inputLook)
+    public void OnLook(Vector2 inputLook)
     {
         lookInput = inputLook;
     }
-    private void HandleLookPlayer()
+    public void HandleLookPlayer()
     {
         transform.Rotate(Vector3.up * lookInput.x * mouseSensitivity * Time.deltaTime);
 
@@ -80,14 +80,14 @@ public class PlayerController : MonoBehaviour
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
-    private void ApplyPhysics()
+    public void ApplyPhysics()
     {
         Vector3 moveDirection = (transform.right * movement.x + transform.forward * movement.y).normalized;
         Vector3 velocity = moveDirection * walkSpeed;
         velocity.y = myRBD.linearVelocity.y; 
         myRBD.linearVelocity = velocity;
     }
-    private void OnInteract(bool isPressed)
+    public void OnInteract(bool isPressed)
     {
         animations.SetInteract(isPressed);
 
