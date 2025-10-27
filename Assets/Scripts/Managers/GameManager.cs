@@ -1,13 +1,13 @@
 using MoreMountains.Feedbacks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private MMF_Player blinkEffects;
 
-
-    private void Start()
+    public void ChangeScene(string sceneName)
     {
-        blinkEffects.PlayFeedbacks();
+        SceneManager.LoadScene(sceneName);
     }
+
 }
