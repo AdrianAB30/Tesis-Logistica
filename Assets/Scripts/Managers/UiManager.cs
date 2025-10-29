@@ -7,7 +7,6 @@ using System.Collections;
 using DG.Tweening;
 using TMPro;
 
-[System.Serializable]
 public class UiManager : MonoBehaviour
 {
     [Header("Fade inicial")]
@@ -42,12 +41,14 @@ public class UiManager : MonoBehaviour
     {
         gameEvents.OnOrderReceived += ShowOrderUI;
         gameEvents.OnItemDelivered += HandleItemDelivered;
+        gameEvents.OnOrderCompleted += HandleOrderCompleted;
     }
 
     private void OnDisable()
     {
         gameEvents.OnOrderReceived -= ShowOrderUI;
         gameEvents.OnItemDelivered -= HandleItemDelivered;
+        gameEvents.OnOrderCompleted -= HandleOrderCompleted;
 
     }
     private void Start()
@@ -76,7 +77,6 @@ public class UiManager : MonoBehaviour
             .SetEase(dgConfig.popUpEase))
             .AppendCallback(() =>
             {
-
                 popUpText.text = "Start moving using " + " W,A,S,D";
             })
             .AppendInterval(2f)
@@ -88,6 +88,7 @@ public class UiManager : MonoBehaviour
              .AppendCallback(() =>
              {
                  popUpText.text = "You have received an order, you have to go and serve it.";
+                 playerController.SetCanMove(true);
              })
             .AppendInterval(2f)
             .Append(popUp[0].DOAnchorPos(targetPositions[0], dgConfig.popUpTime)
@@ -97,8 +98,6 @@ public class UiManager : MonoBehaviour
             .SetEase(dgConfig.popUpEase))
              .OnComplete(() =>
              {
-                 playerController.SetCanMove(true);
-
                  popUp[1].DOAnchorPos(targetPositions[1], dgConfig.popUpTime)
                  .SetEase(dgConfig.popUpEase);
              });
@@ -145,9 +144,17 @@ public class UiManager : MonoBehaviour
     }
     private void HandleOrderCompleted()
     {
-        Debug.Log("Pedido completado ✅");
-        gameEvents.OrderCompleted(); 
+        popUpText.text = "Well done, you completed the order, you're now ready for your job!";
+
+        DOTween.Sequence()
+            .Append(popUp[0].DOAnchorPos(targetPositions[0], dgConfig.popUpTime))
+            .AppendInterval(1f)
+            .AppendCallback(() =>
+            {
+                playerController.SetCanMove(false);
+            });
     }
+
     private void HandleItemDelivered(string itemName)
     {
         if (orderUI != null)
