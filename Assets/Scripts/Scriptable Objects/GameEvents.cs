@@ -9,10 +9,14 @@ public class GameEvents : ScriptableObject
     public Action<string> OnItemPicked;
     public Action<string> OnItemDelivered;
     public Action<float> OnTimeUpdated;
+    public Action<string> OnItemPacked;
+    public Action<GameObject, bool> OnToggleOutline;
 
     public void OrderReceived(PedidosData order) => OnOrderReceived?.Invoke(order);
     public void OrderCompleted() => OnOrderCompleted?.Invoke();
     public void ItemPicked(string itemName) => OnItemPicked?.Invoke(itemName);
     public void ItemDelivered(string itemName) => OnItemDelivered?.Invoke(itemName);
     public void TimeUpdated(float time) => OnTimeUpdated?.Invoke(time);
+    public void ItemPacked(string itemName) => OnItemPacked?.Invoke(itemName);
+    public void ToggleOutline(GameObject item, bool state) => OnToggleOutline?.Invoke(item, state);
 }

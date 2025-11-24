@@ -8,7 +8,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        panelOptions.SetActive(false);
+        if (panelOptions != null)
+        {
+            panelOptions.SetActive(false);
+        }
     }
     public void ChangeScene(string sceneName)
     {
