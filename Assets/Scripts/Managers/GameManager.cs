@@ -1,29 +1,38 @@
-using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject panelOptions;
+    public static GameManager Instance;
 
-    private void Start()
+    private void Awake()
     {
-        if (panelOptions != null)
+        Application.targetFrameRate = 60;
+
+        if (Instance == null)
         {
-            panelOptions.SetActive(false);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
+
     public void ChangeScene(string sceneName)
     {
+        AudioManager.Instance.PlayFromDB(AudioManager.Instance.audioDB.sfxClick, AudioManager.Instance.audioDB.sfxClickVolume);
         SceneManager.LoadScene(sceneName);
     }
-    public void ChangeSettings()
+    public void RestartScene()
     {
-        panelOptions.SetActive(!panelOptions.activeSelf);
+        AudioManager.Instance.PlayFromDB(AudioManager.Instance.audioDB.sfxClick, AudioManager.Instance.audioDB.sfxClickVolume);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
-    public void ExitApplication()
+    public void ExitGame()
     {
         Application.Quit();
-        Debug.Log("Saliendo del Simulador");
+        Debug.Log("Salir del juego");
     }
 }

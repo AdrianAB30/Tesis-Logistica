@@ -7,5 +7,7 @@ public interface IDropZone
     void ShowGhost();
     void HideGhost();
 
-    bool CanDropItem(string itemTag);
+    bool CanDropItem(DeliverableItem item);
+
+    void ReceiveItem(DeliverableItem item);
 }

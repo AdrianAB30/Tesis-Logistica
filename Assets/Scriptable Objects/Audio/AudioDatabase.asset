@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73bebab9a25d50d41856d9de3da98b8d, type: 3}
+  m_Name: AudioDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::AudioDatabase
+  menuMusic: {fileID: 8300000, guid: be324eef73fd58b4585a50a22edd9214, type: 3}
+  menuMusicVolume: 0.2
+  gameMusic: {fileID: 8300000, guid: 933ecb8f60eadba4a94955b00464f677, type: 3}
+  gameMusicVolume: 0.05
+  sfxWoosh: {fileID: 8300000, guid: 8079e54fa3888cd48ae2621a48008c46, type: 3}
+  sfxWooshVolume: 0.4
+  sfxClick: {fileID: 8300000, guid: 02c53a2bddc245e42801d6022b774b11, type: 3}
+  sfxClickVolume: 1
+  sfxSuccess: {fileID: 8300000, guid: df5f04d794405bc4aa1bec136d988676, type: 3}
+  sfxSuccessVolume: 0.4
+  sfxError: {fileID: 8300000, guid: 00f2dd605b39381489623b756cf219b5, type: 3}
+  sfxErrorVolume: 0.7
+  sfxDoor: {fileID: 8300000, guid: ee9993991b4c47e458b9b1e21a8e12f1, type: 3}
+  sfxDoorVolume: 0.4
+  sfxOpenGarage: {fileID: 8300000, guid: f3bdc9c7284087249841811a8df0b24c, type: 3}
+  sfxOpenGarageVolume: 0.8
+  sfxContador: {fileID: 8300000, guid: a7dd55b56a679584aacc1d22d1516a18, type: 3}
+  sfxContadorVolume: 0.5
+  sfxTruckReverse: {fileID: 8300000, guid: aef50fc4e9968db4ca27aa614b2f8fcf, type: 3}
+  sfxTruckReverseVolume: 0.5
+  sfxAirBrakes: {fileID: 8300000, guid: 8e6579e3167d4d14f8199019e0e00ac7, type: 3}
+  sfxAirBrakesVolume: 0.5
+  sfxApertura: {fileID: 8300000, guid: aec5fbe41066b024587104185711a7cb, type: 3}
+  sfxAperturaVolume: 0.5
+  introVoices:
+  - {fileID: 8300000, guid: 0b52e0117bd970b40a0ad5bd01cb13dc, type: 3}
+  - {fileID: 8300000, guid: 83d1009e49e59404790d5ce3212b9eaf, type: 3}
+  - {fileID: 8300000, guid: 663775098bbe4be4ebdf2ee77e0355b5, type: 3}
+  - {fileID: 8300000, guid: 57131d35bd528fa4a8d48902ad4b064e, type: 3}
+  - {fileID: 8300000, guid: 81737d565c8efcd41b3a926c7e85e1e2, type: 3}
+  tutorialVoices:
+  - {fileID: 8300000, guid: ebbc3795713336141816d1f870dc984e, type: 3}
+  - {fileID: 8300000, guid: 62825a64252247e4f9972dda969e6c32, type: 3}
+  - {fileID: 8300000, guid: 55197969bc17a6945908c0e5eefaf08f, type: 3}
+  - {fileID: 8300000, guid: 370204ec66c21a9409bc703ebe1839af, type: 3}
+  - {fileID: 8300000, guid: 8c77072feb975ab4b8e7fb48d5e00aec, type: 3}
+  - {fileID: 8300000, guid: ec87f2f64ea0b654794d4e49bf8848fe, type: 3}
+  - {fileID: 8300000, guid: bde94749b5faeb94a8220844ceb2f4d7, type: 3}
+  - {fileID: 8300000, guid: bf6cd40378befa143a29d7d757b8ad20, type: 3}
+  - {fileID: 8300000, guid: 48418189e07ed0a4eb538e23778e2f37, type: 3}
+  - {fileID: 8300000, guid: 334799d0347b2464b8e404c603e86369, type: 3}
+  - {fileID: 8300000, guid: 8f05f22d1c0f73143b4c8ba0573b8d32, type: 3}
+  - {fileID: 8300000, guid: e3c63c42c910dbb43b06c3040403a49d, type: 3}
+  - {fileID: 8300000, guid: 421d82f28f73dc24697bfab1907ff430, type: 3}
+  - {fileID: 8300000, guid: 5320d9b14882a9048a02e003d25b5900, type: 3}
+  - {fileID: 8300000, guid: df9d75767a6f6494d91f1dc7dfba8a64, type: 3}
+  introSubtitles:
+  - "Bienvenido al punto de partida, la recepcion. Aqui es donde todo comienza. La
+    mercancia llega, se valida contra las ordenes de compra y se clasifica para su
+    almacenamiento. Un buen orden aqu\xED es la clave para que el resto del flujo
+    no se detenga. "
+  - "\xA1Atencion! Ha entrado un pedido. Aqui aplicamos el picking por ola. En lugar
+    de ir producto por producto, agrupamos varios pedidos para optimizar el recorrido
+    por los pasillos. La velocidad y la precision son tus mejores aliadas en este
+    paso."
+  - Llegamos a la zona critica, el acondicionamiento. Aqui no hay margen de error.
+    Contrastamos fisicamente los productos recolectados contra el documento oficial
+    de pedido. Es el ultimo filtro antes de que el cliente final reciba su encargo.
+    Verifica dos veces.
+  - Todo esta correcto. Ahora a proteger la mercancia. Empacamos el pedido asegurando
+    que cada producto este bien estibado. El rotulado es vital. Esa etiqueta con
+    el codigo QR es el ADN de tu paquete. Sin ella, la trazabilidad desaparece.
+  - "\xA1La recta final! Las cajas ya estan selladas y rotuladas. Ahora consolidamos
+    la carga en el muelle y la preparamos para el transporte, ya sea por via terrestre
+    o aerea. Aqui es donde entregamos valor al cliente. Operacion completada con
+    exito. "
+  tutorialSubtitles:
+  - "\xA1Hola! Bienvenido a tu primer d\xEDa en el Centro Logistico. Vamos a empezar
+    con lo basico."
+  - Usa las teclas W, A, S y D, de tu teclado para caminar por el almacen, y pulsa
+    la tecla F para interactuar con los objetos que tu marcador detecta al cambiar
+    de color, ahora intenta moverte un poco.
+  - "\xA1Excelente! Todo flujo de entrada empieza con la documentacion. Ve al escritorio,
+    revisa la orden en el portapapeles e interactua con el sello para autorizarla."
+  - "\xA1Documento aprobado!, acabas de autorizar el internamiento. Ahora ve e interactua
+    con la puerta del almacen para que el camion del proveedor pueda entrar, espera
+    a que estacione y descargue."
+  - "Ahora recoge una caja del suelo y llevala a la zona de estanterias se\xF1alada
+    para su almacenamiento temporal."
+  - "\xA1Perfecto! Ahora tenemos inventario. Mira la pantalla del Sistema Andon,
+    acaba de entrar el pedido de un cliente. Vuelve al estante y recoge el producto
+    solicitado."
+  - Ese es el proceso de Picking. Ahora, lleva el producto a la estacion de empaque
+    para acondicionarlo.
+  - 'Para sellar la caja, manten presionado el boton izquierdo del mouse para aplicar
+    la cinta de embalaje. Presta atencion al indicador de tension: suelta el boton
+    exactamente cuando cambie de color. Si sueltas antes, la cinta no pegara y si
+    te pasas, la romperas por exceso de tension.'
+  - 'Siempre recuerda esto: un empaque deficiente es la causa principal de mermas
+    en el transporte. Un sellado riguroso garantiza que el producto soporte las vibraciones
+    del trayecto y llegue en optimas condiciones a las manos del cliente.'
+  - "Bien hecho!, ahora dirigete a la consola de impresion de etiquetas para generar
+    la gu\xEDa de despacho y colocar su etiquetado correspondiente al paquete."
+  - 'Observa el calibrador de la maquina: presiona el boton justo en el milisegundo
+    en que la aguja pase por la zona central. Cada error de calibracion hara que
+    la aguja se vuelva mas rapida y penalizara tu tiempo.'
+  - El etiquetado es el documento de identidad de la mercancia. Una etiqueta precisa
+    y bien adherida asegura la trazabilidad total en la cadena de suministro y evita
+    envios cruzados. Sin esto, la caja es solo un bulto perdido en el almacen.
+  - Esto se te da bien!, ahora dirigete a la zona de despacho para colocar la caja
+    en el camion de entregas.
+  - "\xA1Genial! Has despachado la primera unidad. Recuerda que el monitor Andon
+    indica que este pedido es de 3 cajas. Regresa a los estantes y procesa las otras
+    dos por tu cuenta para que el camion pueda retirarse."
+  - "\xA1Carga completada con exito! El transporte esta en camino a su destino. En
+    pantalla podras ver tu evaluacion de eficiencia operativa, calculada en base
+    a tu tiempo y a los errores cometidos en la linea de empaque. Un verdadero operador
+    logistico optimiza el tiempo sin sacrificar la calidad del paquete. Excelente
+    trabajo en tu primer turno."

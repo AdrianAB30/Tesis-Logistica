@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6490e06f901a3174f82fb398135e7654, type: 3}
+  m_Name: DOTweenAnimationsConfig
+  m_EditorClassIdentifier: 
+  popUpEase: 13
+  popUpTime: 1
+  panelEase: 27
+  panelTime: 0.5
+  introPanelEase: 6
+  introPanelTime: 1
+  blinkEase: 2
+  blinkTime: 1
+  subtitleScaleTime: 0.2
+  subtitleScaleEase: 28
+  subtitleTypingDuration: 5
+  subtitleFadeOutTime: 0.5
+  endValueFade: 1
+  durationFade: 0.2
+  textScaleTime: 0.5
+  textScaleEase: 27
+  textReadTime: 2
+  textFadeOutTime: 1
+  eyelidMoveDistance: 8000
+  eyelidMoveTime: 1.5
+  eyelidMoveEase: 4
+  buttonEase: 30
+  buttonTime: 0.3
+  objectScaleEase: 24
+  objectScaleTime: 0.8
+  objectMoveEase: 6
+  objectMoveTime: 0.2
+  objectMovePower: 0.2
+  objectNumberMoves: 1
+  objectRotateEase: 6
+  objectRotateMode: 0
+  objectRotateTime: 0.2
+  sceneTransitionEase: 4
+  simpleFadeTime: 1
+  stampPunchTime: 0.3
+  stampPunchVector: {x: 0, y: -0.03, z: 0}
+  stampPunchVibrato: 1
+  stampPunchElasticity: 0.5
+  truckMoveEase: 6
+  truckShakeTime: 11
+  truckShakeStrength: {x: 0, y: 0.1, z: 0.1}
+  truckShakeVibrato: 1
+  truckBrakeTime: 0.4
+  truckBrakePunch: {x: 0, y: 0, z: -5}
+  truckBrakeVibrato: 6
+  wheelRotationSpeed: 360
+  wheelEase: 1
+  garageOpenTime: 3
+  garageOpenEase: 4
+  boxPopTime: 0.3
+  boxPopEase: 18
+  arrowMoveDistance: 0.5
+  arrowMoveTime: 0.5
+  arrowMoveEase: 4
+  dispatchAnticipationDist: 1
+  dispatchAnticipationTime: 0.6
+  dispatchAnticipationEase: 6
+  dispatchAnticipationRot: {x: -2, y: 0, z: 0}
+  dispatchFastWheelTime: 0.05
+  dispatchFugaTime: 2
+  dispatchFugaEase: 17
+  dispatchTrompaBajaTime: 0.5
+  dispatchFugaShakeStrength: {x: 0, y: 0.05, z: 0}
+  dispatchFugaShakeVibrato: 10
+  dispatchReturnTime: 2
+  dispatchReturnEase: 27
+  boxFlipJumpPower: 0.4
+  boxFlipDuration: 0.6
+  boxFlipEase: 6
+  boxCloseTapasDuration: 0.8
+  boxCloseTapasEase: 30
+  minigameUIAnimTime: 0.25
+  tapeClickPunchScale: {x: 0.1, y: 0.1, z: 0}
+  tapeClickPunchDuration: 0.2
+  tapeTensionShakeDuration: 0.1
+  tapeTensionShakeStrength: 2
+  tapeTensionShakeVibrato: 10
+  tapeErrorShakeDuration: 0.3
+  tapeErrorShakeStrength: 15
+  tapeErrorShakeVibrato: 20
+  printerUIPopEase: 27
+  printerNeedleEase: 4
+  printerUIPopTime: 0.3
+  printerNeedleSpeed: 0.8
+  printerButtonPunchTime: 0.1
+  printerJumpPower: 0.15
+  printerJumpTime: 0.25
+  printerLabelScaleTime: 0.2
+  printerLabelJumpPower: 0.4
+  printerLabelJumpTime: 0.4
+  printerLabelRotateTime: 0.4
+  printerErrorShakeDuration: 0.2
+  printerErrorShakeStrength: 5
+  printerErrorShakeVibrato: 10
+  dispatchBoxJumpPower: 1.5
+  dispatchBoxJumpTime: 0.8
+  dispatchBoxJumpEase: 6
+  rotacionIzqAbierta: {x: 0, y: 90, z: 0}
+  rotacionDerAbierta: {x: 0, y: -90, z: 0}
+  dispatchDoorCloseTime: 0.8
+  dispatchDoorCloseEase: 5
+  doorsOpened: 27
+  dispatchTruckPunchTime: 0.5
+  dispatchTruckPunchForce: {x: 0, y: 0.1, z: 0.1}
+  dispatchTruckDriveTime: 2.5
+  dispatchTruckDriveEase: 26
+  starFadeDuration: 0.3
+  starPunchScale: {x: 0.2, y: 0.2, z: 0.2}
+  starPunchDuration: 0.5
+  starPunchVibrato: 5
+  starInterval: 0.2

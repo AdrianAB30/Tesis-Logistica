@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NuevoPedido", menuName = "Scriptable Objects/Pedidos", order = 1)]
+[CreateAssetMenu(fileName = "NuevoPedido", menuName = "Scriptable Objects/Pedidos/Pedidos", order = 1)]
 public class PedidosData : ScriptableObject
 {
     public string orderName;
@@ -12,7 +12,6 @@ public class PedidosData : ScriptableObject
 [System.Serializable]
 public class OrderItem
 {
-    public string itemName;
+    public ItemData itemData;
     public int quantity;
-    public Sprite icon;
 }

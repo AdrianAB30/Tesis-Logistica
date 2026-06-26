@@ -1,165 +1,107 @@
-﻿using MoreMountains.Feedbacks;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using System.Collections;
+﻿using UnityEngine;
 using DG.Tweening;
 using TMPro;
 
 public class UiManager : MonoBehaviour
 {
-    [Header("Fade inicial")]
-    [SerializeField] private MMF_Player blinkEffects;
+    [Header("Secuencia Cinematográfica (Intro)")]
+    [SerializeField] private TMP_Text textoBienvenida;
+    [SerializeField] private RectTransform parpadoSuperior;
+    [SerializeField] private RectTransform parpadoInferior;
 
-    [Header("Pop-ups")]
-    [SerializeField] private RectTransform[] popUp;
-    [SerializeField] private TMP_Text popUpText;
-    private bool activePopUps;
+    [Header("Elementos In-Game")]
+    [SerializeField] private CanvasGroup grupoContador;
 
     [Header("Player Control")]
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private InputReader inputReader;
 
     [Header("DOTween")]
     [SerializeField] private DOTweenConfig dgConfig;
-    [SerializeField] private Vector3[] targetPositions;
-    [SerializeField] private Vector3[] originalPositions;
 
-    [Header("Eventos")]
+    [Header("UI Feedback")]
+    [SerializeField] private TMP_Text textoAlerta;
+    [SerializeField] private TMP_Text textoObjetivo;
+
+    [Header("Referencias de Eventos")]
     [SerializeField] private GameEvents gameEvents;
-
-    [Header("UI Pedido")]
-    [SerializeField] private GameObject orderPanel;
-    [SerializeField] private Transform orderItemsParent;
-    [SerializeField] private GameObject orderItemPrefab;
-    [SerializeField] private TMP_Text orderNameText;
-    [SerializeField] private Image orderIconImage;
-    [SerializeField] private OrderItemUI orderUI;
-
 
     private void OnEnable()
     {
-        gameEvents.OnOrderReceived += ShowOrderUI;
-        gameEvents.OnItemDelivered += HandleItemDelivered;
-        gameEvents.OnOrderCompleted += HandleOrderCompleted;
+        if (gameEvents != null) gameEvents.OnStarLost += PenalizarVisualmente;
     }
 
     private void OnDisable()
     {
-        gameEvents.OnOrderReceived -= ShowOrderUI;
-        gameEvents.OnItemDelivered -= HandleItemDelivered;
-        gameEvents.OnOrderCompleted -= HandleOrderCompleted;
-
+        if (gameEvents != null) gameEvents.OnStarLost -= PenalizarVisualmente;
     }
+
     private void Start()
     {
-        blinkEffects.PlayFeedbacks();
-        blinkEffects.Events.OnComplete.AddListener(OnBlinkComplete);
-        ActivatePopUps(false);
+        inputReader.SetInputActive(false); 
+
+        textoBienvenida.rectTransform.localScale = Vector3.one * 5f;
+        textoBienvenida.color = new Color(textoBienvenida.color.r, textoBienvenida.color.g, textoBienvenida.color.b, 0f);
+
+        StartCinematicIntro();
     }
 
-    private void OnBlinkComplete()
+    private void StartCinematicIntro()
     {
-        StartCoroutine(ShowPopUps());
-    }
+        Sequence introSeq = DOTween.Sequence();
 
-    private IEnumerator ShowPopUps()
-    {
-        yield return new WaitForSeconds(0.5f);
+        introSeq.Append(textoBienvenida.DOFade(dgConfig.endValueFade, dgConfig.durationFade));
+        introSeq.Join(textoBienvenida.rectTransform.DOScale(Vector3.one, dgConfig.textScaleTime).SetEase(dgConfig.textScaleEase))
+                .OnStart(() =>
+                {
+                    AudioManager.Instance.PlayFromDB(AudioManager.Instance.audioDB.sfxApertura, AudioManager.Instance.audioDB.sfxAperturaVolume );
+                });
 
-        ActivatePopUps(true);
+        introSeq.AppendInterval(dgConfig.textReadTime);
+        introSeq.Append(textoBienvenida.DOFade(0f, dgConfig.textFadeOutTime));
 
-        DOTween.Sequence()
-            .Append(popUp[0].DOAnchorPos(targetPositions[0], dgConfig.popUpTime)
-            .SetEase(dgConfig.popUpEase))
-            .AppendInterval(2f)
-            .Append(popUp[0].DOAnchorPos(originalPositions[0], dgConfig.popUpTime)
-            .SetEase(dgConfig.popUpEase))
-            .AppendCallback(() =>
-            {
-                popUpText.text = "Start moving using " + " W,A,S,D";
-            })
-            .AppendInterval(2f)
-            .Append(popUp[0].DOAnchorPos(targetPositions[0], dgConfig.popUpTime)
-            .SetEase(dgConfig.popUpEase))
-            .AppendInterval(2f)
-            .Append(popUp[0].DOAnchorPos(originalPositions[0], dgConfig.popUpTime)
-            .SetEase(dgConfig.popUpEase))
-             .AppendCallback(() =>
-             {
-                 popUpText.text = "You have received an order, you have to go and serve it.";
-                 playerController.SetCanMove(true);
-             })
-            .AppendInterval(2f)
-            .Append(popUp[0].DOAnchorPos(targetPositions[0], dgConfig.popUpTime)
-            .SetEase(dgConfig.popUpEase))
-            .AppendInterval(2.5f)
-            .Append(popUp[0].DOAnchorPos(originalPositions[0], dgConfig.popUpTime)
-            .SetEase(dgConfig.popUpEase))
-             .OnComplete(() =>
-             {
-                 popUp[1].DOAnchorPos(targetPositions[1], dgConfig.popUpTime)
-                 .SetEase(dgConfig.popUpEase);
-             });
-    }
-    public void ActivatePopUps(bool status)
-    {
-        activePopUps = status;
+        introSeq.Append(parpadoSuperior.DOAnchorPosY(dgConfig.eyelidMoveDistance, dgConfig.eyelidMoveTime).SetEase(dgConfig.eyelidMoveEase));
+        introSeq.Join(parpadoInferior.DOAnchorPosY(-dgConfig.eyelidMoveDistance, dgConfig.eyelidMoveTime).SetEase(dgConfig.eyelidMoveEase));
 
-        if (status)
+        introSeq.OnComplete(() =>
         {
-            for (int i = 0; i < popUp.Length; i++)
+            inputReader.SetInputActive(true);
+
+            if (TutorialManager.Instance != null)
             {
-                popUp[i].gameObject.SetActive(true);
+                TutorialManager.Instance.IniciarTutorial();
             }
-        }
-        else
-        {
-            for (int i = 0; i < popUp.Length; i++)
-            {
-                popUp[i].gameObject.SetActive(false);
-            }
-
-        }
+        });
     }
-    private void ShowOrderUI(PedidosData pedido)
+    public void AparecerContador()
     {
-        orderNameText.text = pedido.orderName;
-        orderIconImage.sprite = pedido.orderIcon;
-
-        foreach (Transform child in orderItemsParent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        GameObject obj = Instantiate(orderItemPrefab, orderItemsParent);
-        OrderItemUI itemUI = obj.GetComponent<OrderItemUI>();
-        if (itemUI != null)
-        {
-            itemUI.Setup(new List<OrderItem>(pedido.items));
-            itemUI.OnOrderCompleted += HandleOrderCompleted;
-
-            orderUI = itemUI;
-        }
+        AudioManager.Instance.PlayFromDB(AudioManager.Instance.audioDB.sfxContador, AudioManager.Instance.audioDB.sfxContadorVolume);
+        grupoContador.alpha = 0;
+        grupoContador.gameObject.SetActive(true);
+        grupoContador.DOFade(1f, 1f);
     }
-    private void HandleOrderCompleted()
+    private void PenalizarVisualmente(int estrellasRestantes)
     {
-        popUpText.text = "Well done, you completed the order, you're now ready for your job!";
+        grupoContador.transform.DOKill(); 
+        grupoContador.transform.DOShakePosition(0.5f, 20f, 10, 90);
 
-        DOTween.Sequence()
-            .Append(popUp[0].DOAnchorPos(targetPositions[0], dgConfig.popUpTime))
-            .AppendInterval(1f)
-            .AppendCallback(() =>
-            {
-                playerController.SetCanMove(false);
-            });
+        textoAlerta.text = "¡EFICIENCIA BAJA!";
+        textoAlerta.color = Color.red;
+        textoAlerta.transform.localScale = Vector3.zero;
+        textoAlerta.transform.DOScale(1f, 0.3f).SetEase(Ease.OutBack);
+
+        textoAlerta.DOFade(0f, 1f).SetDelay(1.5f);
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayFromDB(AudioManager.Instance.audioDB.sfxError, AudioManager.Instance.audioDB.sfxErrorVolume);
     }
-
-    private void HandleItemDelivered(string itemName)
+    public void MostrarAvisoObjetivo()
     {
-        if (orderUI != null)
-        {
-            orderUI.MarkAsCollected(itemName);
-        }
+        textoObjetivo.alpha = 0f;
+
+        textoObjetivo.DOFade(1f, 1f);
+
+        textoObjetivo.transform.DOMoveY(textoObjetivo.transform.position.y + 20f, 2f);
+
+        textoObjetivo.DOFade(0f, 1f).SetDelay(4f);
     }
 }

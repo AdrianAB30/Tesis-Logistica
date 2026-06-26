@@ -1,53 +1,62 @@
 using UnityEngine;
 
-public class DeliverableItem : MonoBehaviour
+public class DeliverableItem : MonoBehaviour, IInteractable
 {
-    [SerializeField] private GameEvents gameEvents;
+    [Header("Identidad del Item")]
+    public ItemData itemData;
 
-    [HideInInspector] public bool isPicked = false;
-    [HideInInspector] public bool isPacked = false;
+    [Header("Corrección Visual (En Reposo)")]
+    public Vector3 rotacionReposo = Vector3.zero;
+    public Vector3 offsetReposo = Vector3.zero;
 
-    public void ItemPicked()
+    [Header("Corrección Visual (En Manos)")]
+    public Vector3 rotacionEnManos = Vector3.zero;
+    public Vector3 offsetEnManos = Vector3.zero;
+
+    public enum BoxState { InWarehouse, InHands, OnDropTable }
+
+    public BoxState currentState = BoxState.InWarehouse;
+
+    public bool isPacked = false;
+    public bool isStored = false;
+    public bool isLabeled = false;
+    public bool isDelivered = false;
+
+    private void Awake()
     {
-        if (!isPicked)
-        {
-            isPicked = true;
-            gameEvents.ItemPicked(gameObject.tag);
-            Debug.Log("Picking completado para: " + gameObject.tag);
-        }
+        isStored = false;
+        isPacked = false;
+        isLabeled = false;
+        isDelivered = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void ChangeBoxState(BoxState nuevoEstado)
     {
-        // 1. LÓGICA DE PACKING (Acondicionamiento)
-        // El jugador debe llevar el ítem (isPicked = true) a la estación de empaque.
-        if (other.CompareTag("EstacionEmpaque") && isPicked && !isPacked)
+        currentState = nuevoEstado;
+    }
+
+    public void SetPackedState(bool state)
+    {
+        isPacked = state;
+    }
+
+    public void Interact(PlayerInteractor interactor)
+    {
+        if (interactor.objectHeld == null && currentState != BoxState.InHands)
         {
-            // NOTA: Asumiendo que el jugador DEBE soltar el ítem para que entre
-            // en el Trigger de la estación de empaque.
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 0.2f);
+            foreach (Collider col in colliders)
+            {
+                DropZoneHandler zona = col.GetComponent<DropZoneHandler>();
+                if (zona != null && zona.isOccupied)
+                {
+                    zona.FreeSlot(); 
+                }
+            }
 
-            isPacked = true;
-            gameEvents.ItemPacked(gameObject.tag);
-            Debug.Log("Caja acondicionada/empacada: " + gameObject.tag);
-        }
+            transform.SetParent(null);
 
-        // 2. LÓGICA DE DESPACHO (Entrega)
-        // Solo se puede entregar si está empacado.
-        else if (other.CompareTag("Despacho") && isPacked)
-        {
-            gameEvents.ItemDelivered(gameObject.tag);
-            Debug.Log("Caja entregada en despacho: " + gameObject.tag);
-
-            // Desactivamos el objeto solo si la entrega fue exitosa
-            this.gameObject.SetActive(false);
-        }
-
-        // 3. (OPCIONAL) Feedback de error si intenta entregar sin empacar
-        else if (other.CompareTag("Despacho") && isPicked && !isPacked)
-        {
-            // Podrías lanzar un evento de error para que la UI muestre un pop-up:
-            // gameEvents.ShowError("¡Error! Debes empacar el ítem en la Estación antes de despachar.");
-            Debug.LogWarning("Error logístico: ¡El ítem " + gameObject.tag + " no ha sido empacado!");
+            interactor.PickUpDeliverable(this);
         }
     }
 }
